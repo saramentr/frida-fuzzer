@@ -16,13 +16,13 @@
 
  */
 
-exports.UR = function(n) {
+exports var UR = function(n) {
 
   return Math.floor(Math.random() * n);
 
 }
 
-exports.hex_to_arrbuf = function(hexstr) {
+export var hex_to_arrbuf = function(hexstr) {
 
   var buf = [];
   for(var i = 0; i < hexstr.length; i+=2)
@@ -33,7 +33,7 @@ exports.hex_to_arrbuf = function(hexstr) {
 
 }
 
-exports.str_to_uint8arr = function (str) {
+export var str_to_uint8arr = function (str) {
     // from https://gist.github.com/lihnux/2aa4a6f5a9170974f6aa
 
     var utf8 = [];
@@ -68,7 +68,7 @@ exports.str_to_uint8arr = function (str) {
 
 }
 
-exports.uint8arr_to_str = (function () {
+export var uint8arr_to_str = (function () {
     // from https://stackoverflow.com/questions/8936984/uint8array-to-string-in-javascript
 
     var char_cache = new Array(128);  // Preallocate the cache for the common single byte chars
@@ -104,7 +104,7 @@ exports.uint8arr_to_str = (function () {
     };
 })();
 
-exports.locate_diffs = function (buf1, buf2) {
+export var locate_diffs = function (buf1, buf2) {
 
     var a = new Uint8Array(buf1);
     var b = new Uint8Array(buf2);
