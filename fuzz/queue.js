@@ -16,10 +16,10 @@
 
  */
 
-var config  = require("./config.js");
-var bitmap = require("./bitmap.js");
-var utils  = require("./utils.js");
-var stages = require("./stages.js");
+import * as config from "./config.js";
+import * as bitmap from "./bitmap.js";
+import * as utils  from "./utils.js";
+import * as stages from "./stages.js";
 
 /* struct QEntry {
   u8* buf;
