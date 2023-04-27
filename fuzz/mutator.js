@@ -16,9 +16,9 @@
 
  */
 
-var config = require("./config.js");
-var utils = require("./utils.js");
-var index = require("./index.js");
+import * as config from "./config.js";
+import * as utils from "./utils.js";
+import * as index from "./index.js";
 
 var interesting_8  = config.INTERESTING_8;
 var interesting_16 = interesting_8.concat(config.INTERESTING_16);
@@ -64,7 +64,7 @@ function choose_block_len(limit) {
 
 }
 
-exports.mutate_havoc = function (buf) { // ArrayBuffer
+export var mutate_havoc = function (buf) { // ArrayBuffer
 
   var out_buf = new DataView(buf);
   var temp_len = out_buf.byteLength;
