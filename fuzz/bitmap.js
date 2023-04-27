@@ -241,7 +241,7 @@ export var update_bitmap_score = function (q) {
 
   var cnt = update_bitmap_score_body(q.ptr, exports.top_rated, exports.trace_bits, exports.virgin_bits);
   if (cnt < 0) {
-    export score_changed = true;
+    score_changed = true;
     cnt = -cnt;
   }
 
