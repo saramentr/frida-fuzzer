@@ -127,44 +127,44 @@ var bytes_size = 0;
 
 /* cur.buf is not guaranteed to be !== null, use always the buf provided as
    argument to functions */
-exports.cur = null;
-exports.cur_idx = -1;
+export var cur = null;
+export var cur_idx = -1;
 
-exports.pending_favored = 0;
-exports.favoreds = 0;
+export var pending_favored = 0;
+export var favoreds = 0;
 
-exports.size = function () {
+export var size = function () {
 
   return queue.length;
 
 };
 
-exports.last = function () {
+export var last = function () {
 
   return queue[queue.length -1];
 
 };
 
-exports.next = function () {
+export var next = function () {
 
-  if (exports.cur_idx === queue.length -1)
-    exports.cur_idx = 0;
+  if (cur_idx === queue.length -1)
+    cur_idx = 0;
   else
-    exports.cur_idx++;
+    cur_idx++;
   
-  var q = queue[exports.cur_idx];
+  var q = queue[cur_idx];
   var buf = undefined;
   
   if (q.buf.isNull()) {
 
     send({
       "event": "get",
-      "num": exports.cur_idx,
+      "num": cur_idx,
       "stage": stages.stage_name,
-      "cur": exports.cur_idx,
+      "cur": cur_idx,
       "total_execs": stages.total_execs,
-      "pending_fav": exports.pending_favored,
-      "favs": exports.favoreds,
+      "pending_fav": pending_favored,
+      "favs": favoreds,
       "map_rate": bitmap.map_rate,
     });
     
@@ -188,14 +188,14 @@ exports.next = function () {
   
   }
 
-  exports.cur = q;
+  cur = q;
   // note that prune_memory does not delete cur.buf so this operation is safe
   // for any other stuffs, buf must be copied
   return buf;
 
 }
 
-exports.get = function (idx) {
+export var get = function (idx) {
 
   return queue[idx];
 
@@ -247,7 +247,7 @@ function prune_memory() {
     }
     
     for(var i = 0; not_del && i < r; ++i) {
-      if (i == exports.cur_idx || queue[i].buf.isNull())
+      if (i == cur_idx || queue[i].buf.isNull())
         continue;
       queue[i].buf = ptr(0);
       queue[i]._bufref = undefined;
@@ -258,7 +258,7 @@ function prune_memory() {
 
 }
 
-exports.add = function (/* ArrayBuffer */ buf, exec_ms, has_new_cov) {
+export var add = function (/* ArrayBuffer */ buf, exec_ms, has_new_cov) {
 
   if (buf.byteLength >= config.QUEUE_CACHE_MAX_SIZE) {
     
@@ -287,9 +287,9 @@ exports.add = function (/* ArrayBuffer */ buf, exec_ms, has_new_cov) {
     "exec_ms": exec_ms,
     "new_cov": has_new_cov,
     "stage": stages.stage_name,
-    "cur": exports.cur_idx,
+    "cur": cur_idx,
     "total_execs": stages.total_execs,
-    "pending_fav": exports.pending_favored,
+    "pending_fav": pending_favored,
     "favs": queue.favoreds,
     "map_rate": bitmap.map_rate,
   }, buf);
@@ -297,12 +297,12 @@ exports.add = function (/* ArrayBuffer */ buf, exec_ms, has_new_cov) {
 }
 
 /* As always, cur.buf is not guaranteed to be !== null */
-exports.splice_target = function (buf) {
+export var splice_target = function (buf) {
 
   var tid = utils.UR(queue.length);
   var t = queue[tid];
   
-  while (tid < queue.length && (queue[tid].size < 2 || tid === exports.cur_idx))
+  while (tid < queue.length && (queue[tid].size < 2 || tid === cur_idx))
     ++tid;
   
   if (tid === queue.length)
@@ -315,12 +315,12 @@ exports.splice_target = function (buf) {
   
     send({
       "event": "splice",
-      "num": exports.cur_idx,
+      "num": cur_idx,
       "cycle": stages.splice_cycle,
       "stage": stages.stage_name,
-      "cur": exports.cur_idx,
+      "cur": cur_idx,
       "total_execs": stages.total_execs,
-      "pending_fav": exports.pending_favored,
+      "pending_fav": pending_favored,
       "favs": queue.favoreds,
       "map_rate": bitmap.map_rate,
     });
@@ -427,12 +427,12 @@ u64 cull_body(struct QEntry** top_rated, u8* temp_v) {
 );
 
 var cull_body = new NativeFunction(
-  exports.__cm.cull_body,
+  __cm.cull_body,
   "uint",
   ["pointer", "pointer"]
 );
 
-exports.cull = function () {
+cull = function () {
 
   if (!bitmap.score_changed) return;
   bitmap.score_changed = false;
@@ -441,8 +441,8 @@ exports.cull = function () {
     queue[i].favored = 0;
 
   var r = cull_body(bitmap.top_rated, temp_v);
-  exports.favoreds = r & 0xffffffff;
-  exports.pending_favored = (r >> 32) & 0xffffffff;
+  favoreds = r & 0xffffffff;
+  pending_favored = (r >> 32) & 0xffffffff;
 
 }
 
