@@ -1,4 +1,3 @@
-var exports = {};
 /*
 
    frida-fuzzer - frida agent instrumentation
@@ -20,7 +19,7 @@ var exports = {};
 import * as config from "./config.js";
 import * as queue from "./queue.js";
 
-exports.trace_bits  = Memory.alloc(config.MAP_SIZE);
+export trace_bits  = Memory.alloc(config.MAP_SIZE);
 exports.virgin_bits = Memory.alloc(config.MAP_SIZE);
 for (var i = 0; i < config.MAP_SIZE; i += 4)
   exports.virgin_bits.add(i).writeU32(0xffffffff);
