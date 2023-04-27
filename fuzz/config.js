@@ -1,3 +1,4 @@
+var exports = {};
 /*
 
    frida-fuzzer - frida agent instrumentation
