@@ -89,7 +89,7 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
   
   bitmap.classify_counts(bitmap.trace_bits, bitmap.count_class_lookup16);
   
-  export var exec_speed = exec_ms;
+  exec_speed = exec_ms;
   ++total_execs;
   
   if (bitmap.save_if_interesting(buf, exec_ms)) {
@@ -170,11 +170,11 @@ export var dry_run = function (callback) {
 function fuzz_havoc(/* ArrayBuffer */ buf, callback, is_splice) {
 
   if (!is_splice)  {
-    export var stage_name = "havoc";
-    export var stage_max = config.HAVOC_CYCLES * 40; // TODO perf_score & co
+    stage_name = "havoc";
+    stage_max = config.HAVOC_CYCLES * 40; // TODO perf_score & co
   } else {
-    export var stage_name = "splice-" + exports.splice_cycle;
-    export var stage_max = config.SPLICE_HAVOC * 40; // TODO perf_score & co
+    stage_name = "splice-" + exports.splice_cycle;
+    stage_max = config.SPLICE_HAVOC * 40; // TODO perf_score & co
   }
 
   for (stage_cur = 0; stage_cur < stage_max;
