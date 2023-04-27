@@ -24,34 +24,34 @@ import * as instr from "./instrumentor.js";
 import * as bitmap from "./bitmap.js";
 import * as utils from "./utils.js";
 
-exports.queue = queue;
-exports.stages = stages;
-exports.config = config;
-exports.mutator = mutator;
-exports.instr = instr;
-exports.bitmap = bitmap;
-exports.utils = utils;
+export var queue = queue;
+export var stages = stages;
+export var config = config;
+export var mutator = mutator;
+export var instr = instr;
+export var bitmap = bitmap;
+export var utils = utils;
 
 /* Define this to exclude other modules from instrumentation */
-exports.target_module = null;
+export var target_module = null;
 /* MANDATORY: harness function */
-exports.fuzzer_test_one_input = null;
+export var fuzzer_test_one_input = null;
 /* If true, the user has to call fuzzing_loop() manually in a callback
    (see Java example, fuzzing_loop cannot be called during script loading) */
-exports.manual_loop_start = false;
-exports.init_callback = function () {}
+export var manual_loop_start = false;
+export var init_callback = function () {}
 
 // by default stages are from FidgetyAFL
-exports.stages_list = [
+stages_list = [
   stages.havoc_stage,
   stages.splice_stage,
 ];
 
-exports.dictionary = [];
+export var dictionary = [];
 
 function normalize_dict () {
 
-  var d = exports.dictionary;
+  var d = dictionary;
   // Accepted types are: Array Uint8Array ArrayBuffer String
   for (var i = 0; i < d.length; ++i) {
   
@@ -68,9 +68,9 @@ function normalize_dict () {
 
 }
 
-exports.fuzzing_loop = function () {
+export var fuzzing_loop = function () {
 
-  if (exports.fuzzer_test_one_input === null) {
+  if (fuzzer_test_one_input === null) {
     throw "ERROR: fuzzer_test_one_input not set! Cannot start the fuzzing loop!";
   }
 
@@ -87,7 +87,7 @@ exports.fuzzing_loop = function () {
       
       // console.log(payload)
 
-      exports.fuzzer_test_one_input(payload);
+      fuzzer_test_one_input(payload);
 
     }
   
@@ -102,7 +102,7 @@ exports.fuzzing_loop = function () {
       
       // console.log(payload)
 
-      exports.fuzzer_test_one_input(payload);
+      fuzzer_test_one_input(payload);
 
     }
   
@@ -124,7 +124,7 @@ exports.fuzzing_loop = function () {
     return false;
   });
   
-  instr.start_tracing(Process.getCurrentThreadId(), exports.target_module);
+  instr.start_tracing(Process.getCurrentThreadId(), target_module);
 
   console.log(" >> Dry run...");
 
@@ -158,7 +158,7 @@ exports.fuzzing_loop = function () {
     
     // bitmap.update_bitmap_score(queue.cur);
 
-    for(var stage of exports.stages_list)
+    for(var stage of stages_list)
       stage(buf, runner);
 
     if (!queue.cur.was_fuzzed) {
@@ -175,10 +175,10 @@ exports.fuzzing_loop = function () {
 
 rpc.exports.loop = function () {
 
-  exports.init_callback();
+  init_callback();
 
-  if (exports.manual_loop_start) return;
+  if (manual_loop_start) return;
 
-  exports.fuzzing_loop();
+  fuzzing_loop();
 
 }
