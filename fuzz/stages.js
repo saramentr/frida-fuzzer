@@ -16,20 +16,20 @@
 
  */
 
-var config  = require("./config.js");
-var mutator = require("./mutator.js");
-var utils = require("./utils.js");
-var bitmap = require("./bitmap.js");
-var queue = require("./queue.js");
+import * as config from "./config.js";
+import * as mutator from "./mutator.js";
+import * as utils from "./utils.js";
+import * as bitmap from "./bitmap.js";
+import * as queue from "./queue.js";
 
-exports.stage_name = "init";
-exports.stage_cur  = 0;
-exports.stage_max  = 0;
+export var stage_name = "init";
+export var stage_cur  = 0;
+export var stage_max  = 0;
 
-exports.total_execs = 0;
-exports.exec_speed = 0;
+export var total_execs = 0;
+export var exec_speed = 0;
 
-exports.splice_cycle = 0;
+export var splice_cycle = 0;
 
 var zeroed_bits = new Uint8Array(config.MAP_SIZE); // TODO memset(..., 0, ...)
 var last_status_ts = 0;
@@ -89,8 +89,8 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
   
   bitmap.classify_counts(bitmap.trace_bits, bitmap.count_class_lookup16);
   
-  exports.exec_speed = exec_ms;
-  ++exports.total_execs;
+  export var exec_speed = exec_ms;
+  ++total_execs;
   
   if (bitmap.save_if_interesting(buf, exec_ms)) {
   
@@ -116,7 +116,7 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
 }
 
 
-exports.dry_run = function (callback) {
+export var dry_run = function (callback) {
 
   var buf = undefined;
   
@@ -138,7 +138,7 @@ exports.dry_run = function (callback) {
         return;
       }
       buf = utils.hex_to_arrbuf(val.buf);
-      exports.queue_cur = val.num;
+      queue_cur = val.num;
     });
 
     op.wait();
@@ -156,9 +156,9 @@ exports.dry_run = function (callback) {
 
   send({
     "event": "status",
-    "stage": exports.stage_name,
+    "stage": stage_name,
     "cur": queue.cur_idx,
-    "total_execs": exports.total_execs,
+    "total_execs": total_execs,
     "pending_fav": queue.pending_favored,
     "favs": queue.favoreds,
     "map_rate": bitmap.map_rate,
@@ -170,15 +170,15 @@ exports.dry_run = function (callback) {
 function fuzz_havoc(/* ArrayBuffer */ buf, callback, is_splice) {
 
   if (!is_splice)  {
-    exports.stage_name = "havoc";
-    exports.stage_max = config.HAVOC_CYCLES * 40; // TODO perf_score & co
+    export var stage_name = "havoc";
+    export var stage_max = config.HAVOC_CYCLES * 40; // TODO perf_score & co
   } else {
-    exports.stage_name = "splice-" + exports.splice_cycle;
-    exports.stage_max = config.SPLICE_HAVOC * 40; // TODO perf_score & co
+    export var stage_name = "splice-" + exports.splice_cycle;
+    export var stage_max = config.SPLICE_HAVOC * 40; // TODO perf_score & co
   }
 
-  for (exports.stage_cur = 0; exports.stage_cur < exports.stage_max;
-       exports.stage_cur++) {
+  for (stage_cur = 0; stage_cur < stage_max;
+       stage_cur++) {
 
     var muted = buf.slice(0);
     muted = mutator.mutate_havoc(muted);
@@ -189,19 +189,19 @@ function fuzz_havoc(/* ArrayBuffer */ buf, callback, is_splice) {
 
 }
 
-exports.havoc_stage = function (/* ArrayBuffer */ buf, callback) {
+export var havoc_stage = function (/* ArrayBuffer */ buf, callback) {
 
   fuzz_havoc(buf, callback, false);
 
 }
 
-exports.splice_stage = function (/* ArrayBuffer */ buf, callback) {
+export var splice_stage = function (/* ArrayBuffer */ buf, callback) {
 
-  exports.splice_cycle = 0;
+  splice_cycle = 0;
 
   if (buf.byteLength <= 1 || queue.size() <= 1) return;
 
-  while (exports.splice_cycle < config.SPLICE_CYCLES) {
+  while (splice_cycle < config.SPLICE_CYCLES) {
 
     var new_buf = queue.splice_target(buf);
 
