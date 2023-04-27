@@ -1,9 +1,9 @@
-var config = require("../fuzz/config.js");
+import * as config from "../fuzz/config.js";
 
 // if you want to modify config vars you need to do it before including the fuzz module
 config.MAP_SIZE = 128;
 
-var fuzz = require("../fuzz");
+import * as fuzz from "../fuzz/index.js";
 
 var TARGET_MODULE = "test_linux64";
 var TARGET_FUNCTION = DebugSymbol.fromName("target_func").address;;
