@@ -359,7 +359,7 @@ export var splice_target = function (buf) {
 
 }
 
-exports.__cm = new CModule(`
+export var __cm = new CModule(`
 
 #include <stdint.h>
 #include <stdio.h>
@@ -432,7 +432,7 @@ var cull_body = new NativeFunction(
   ["pointer", "pointer"]
 );
 
-cull = function () {
+export var cull = function () {
 
   if (!bitmap.score_changed) return;
   bitmap.score_changed = false;
