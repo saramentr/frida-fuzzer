@@ -16,7 +16,7 @@
 
  */
 
-exports var UR = function(n) {
+export var UR = function(n) {
 
   return Math.floor(Math.random() * n);
 
