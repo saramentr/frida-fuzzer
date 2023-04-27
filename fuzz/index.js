@@ -24,6 +24,7 @@ import * as instr from "./instrumentor.js";
 import * as bitmap from "./bitmap.js";
 import * as utils from "./utils.js";
 
+/*
 export var queue = queue;
 export var stages = stages;
 export var config = config;
@@ -31,7 +32,7 @@ export var mutator = mutator;
 export var instr = instr;
 export var bitmap = bitmap;
 export var utils = utils;
-
+*/
 /* Define this to exclude other modules from instrumentation */
 export var target_module = null;
 /* MANDATORY: harness function */
