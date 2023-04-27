@@ -16,13 +16,13 @@
 
  */
 
-var queue = require("./queue.js");
-var stages = require("./stages.js");
-var config = require("./config.js");
-var mutator = require("./mutator.js");
-var instr = require("./instrumentor.js");
-var bitmap = require("./bitmap.js");
-var utils = require("./utils.js");
+import * as queue from "./queue.js";
+import * as stages from "./stages.js";
+import * as config from "./config.js";
+import * as mutator from "./mutator.js";
+import * as instr from "./instrumentor.js";
+import * as bitmap from "./bitmap.js";
+import * as utils from "./utils.js";
 
 exports.queue = queue;
 exports.stages = stages;
