@@ -43,7 +43,7 @@ export var manual_loop_start = false;
 export var init_callback = function () {}
 
 // by default stages are from FidgetyAFL
-stages_list = [
+export var stages_list = [
   stages.havoc_stage,
   stages.splice_stage,
 ];
