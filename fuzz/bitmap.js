@@ -20,14 +20,14 @@ import * as config from "./config.js";
 import * as queue from "./queue.js";
 
 export trace_bits  = Memory.alloc(config.MAP_SIZE);
-exports.virgin_bits = Memory.alloc(config.MAP_SIZE);
+export virgin_bits = Memory.alloc(config.MAP_SIZE);
 for (var i = 0; i < config.MAP_SIZE; i += 4)
-  exports.virgin_bits.add(i).writeU32(0xffffffff);
+  export virgin_bits.add(i).writeU32(0xffffffff);
 
-exports.top_rated = Memory.alloc(config.MAP_SIZE * Process.pointerSize);
-exports.score_changed = false;
+export top_rated = Memory.alloc(config.MAP_SIZE * Process.pointerSize);
+export score_changed = false;
 
-exports.map_rate = 0;
+export map_rate = 0;
 
 /* Init count class lookup */
 
@@ -57,9 +57,9 @@ for (var b1 = 0; b1 < 256; b1++) {
   }
 }
 
-exports.count_class_lookup16 = count_class_lookup16_ptr;
+export count_class_lookup16 = count_class_lookup16_ptr;
 
-exports.__cm = new CModule(`
+export __cm = new CModule(`
 
 #include <stdint.h>
 #include <stdio.h>
@@ -217,46 +217,46 @@ s32 update_bitmap_score_body(struct QEntry* q, struct QEntry** top_rated, u8* tr
   `.replace("__MAP_SIZE__", ""+config.MAP_SIZE)
 );
 
-exports.classify_counts = new NativeFunction(
-  exports.__cm.classify_counts,
+export classify_counts = new NativeFunction(
+  export __cm.classify_counts,
   "void",
   ["pointer", "pointer"]
 );
 
-exports.has_new_bits = new NativeFunction(
-  exports.__cm.has_new_bits,
+export has_new_bits = new NativeFunction(
+  export __cm.has_new_bits,
   "int",
   ["pointer", "pointer"]
 );
 
 var update_bitmap_score_body = new NativeFunction(
-  exports.__cm.update_bitmap_score_body,
+  export __cm.update_bitmap_score_body,
   "int",
   ["pointer", "pointer", "pointer", "pointer"]
 );
 
-exports.update_bitmap_score = function (q) {
+export update_bitmap_score = function (q) {
 
   if (config.SKIP_SCORE_FAV) return;
 
   var cnt = update_bitmap_score_body(q.ptr, exports.top_rated, exports.trace_bits, exports.virgin_bits);
   if (cnt < 0) {
-    exports.score_changed = true;
+    export score_changed = true;
     cnt = -cnt;
   }
 
-  exports.map_rate = cnt * 100 / config.MAP_SIZE;
+  export map_rate = cnt * 100 / config.MAP_SIZE;
 
 }
 
-exports.save_if_interesting = function (buf, exec_ms) {
+export save_if_interesting = function (buf, exec_ms) {
   
-  var hnb = exports.has_new_bits(exports.trace_bits, exports.virgin_bits);
+  var hnb = export has_new_bits(export trace_bits, export virgin_bits);
   if (hnb == 0)
     return true;
   
   queue.add(buf, exec_ms, (hnb == 2));
-  exports.update_bitmap_score(queue.last());
+  export update_bitmap_score(queue.last());
 
   return false;  
   
