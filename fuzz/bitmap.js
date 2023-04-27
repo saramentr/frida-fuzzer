@@ -16,8 +16,8 @@
 
  */
 
-var config  = require("./config.js");
-var queue = require("./queue.js");
+import * as config from "./config.js";
+import * as queue from "./queue.js";
 
 exports.trace_bits  = Memory.alloc(config.MAP_SIZE);
 exports.virgin_bits = Memory.alloc(config.MAP_SIZE);
