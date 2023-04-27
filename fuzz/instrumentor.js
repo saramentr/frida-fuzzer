@@ -72,7 +72,7 @@ export var start_tracing = function(thread_id, target_module) {
   if (Process.arch == "ia32") {
 
     // Fast inline instrumentation for x86
-    export var transform_ia32 = function (iterator) {
+    transform_ia32 = function (iterator) {
       
       var i = iterator.next();
       
@@ -126,7 +126,7 @@ export var start_tracing = function(thread_id, target_module) {
   } else if (Process.arch == "x64") {
 
     // Fast inline instrumentation for x86_64
-    export var transform_x64 = function (iterator) {
+    transform_x64 = function (iterator) {
       
       var i = iterator.next();
       
@@ -179,7 +179,7 @@ export var start_tracing = function(thread_id, target_module) {
   
   } else {
   
-    export var __cm = new CModule(`
+    __cm = new CModule(`
 
     #include <stdint.h>
     #include <gum/gumstalker.h>
