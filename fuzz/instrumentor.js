@@ -16,15 +16,15 @@
 
  */
 
-var config = require("./config.js");
-var bitmap = require("./bitmap.js");
+import * as config from "./config.js";
+import * as bitmap from "./bitmap.js";
 
 // trustThreshold must be 0, don't change it and especially don't set it to -1
 Stalker.trustThreshold = 0;
 
-exports.prev_loc_map = {}
+export var prev_loc_map = {}
 
-exports.start_tracing = function(thread_id, target_module) {
+export var start_tracing = function(thread_id, target_module) {
     
   var start_addr = ptr(0);
   var end_addr = ptr("-1");
@@ -62,17 +62,17 @@ exports.start_tracing = function(thread_id, target_module) {
     });
   }
 
-  var prev_loc_ptr = exports.prev_loc_map[thread_id];
+  var prev_loc_ptr = prev_loc_map[thread_id];
   if (prev_loc_ptr === undefined) {
     prev_loc_ptr = Memory.alloc(32);
-    exports.prev_loc_map[thread_id] = prev_loc_ptr;
+    prev_loc_map[thread_id] = prev_loc_ptr;
   }
 
   var transform = undefined;
   if (Process.arch == "ia32") {
 
     // Fast inline instrumentation for x86
-    exports.transform_ia32 = function (iterator) {
+    export var transform_ia32 = function (iterator) {
       
       var i = iterator.next();
       
@@ -121,12 +121,12 @@ exports.start_tracing = function(thread_id, target_module) {
 
     };
 
-    transform = exports.transform_ia32;
+    transform = transform_ia32;
 
   } else if (Process.arch == "x64") {
 
     // Fast inline instrumentation for x86_64
-    exports.transform_x64 = function (iterator) {
+    export var transform_x64 = function (iterator) {
       
       var i = iterator.next();
       
@@ -175,11 +175,11 @@ exports.start_tracing = function(thread_id, target_module) {
 
     };
 
-    transform = exports.transform_x64;
+    transform = transform_x64;
   
   } else {
   
-    exports.__cm = new CModule(`
+    export var __cm = new CModule(`
 
     #include <stdint.h>
     #include <gum/gumstalker.h>
@@ -228,7 +228,7 @@ exports.start_tracing = function(thread_id, target_module) {
      .replace("__MAP_SIZE__", config.MAP_SIZE.toString())
     );
 
-    transform = exports.__cm.transform;
+    transform = __cm.transform;
 
   }
   
