@@ -26,7 +26,9 @@ for (var i = 0; i < config.MAP_SIZE; i += 4)
 
 export var top_rated = Memory.alloc(config.MAP_SIZE * Process.pointerSize);
 export var score_changed = false;
-
+export function set_score_changed(arg){
+  score_changed = arg;
+}
 export var map_rate = 0;
 
 /* Init count class lookup */
