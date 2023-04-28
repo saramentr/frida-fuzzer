@@ -1,11 +1,11 @@
-var fuzz = require("../fuzz");
+import * as fuzz from "../fuzz/index.js";
 
 // Actually Java fuzzing is WIP, works only of the target module is AOT compiled
 
 // To start the fuzzing loop manually when Java is avaiable
-fuzz.manual_loop_start = true;
+fuzz.set_manual_loop_start(true);
 
-fuzz.init_callback = function () {
+let arg = function () {
 
   Java.perform(function () {
 
@@ -37,5 +37,5 @@ fuzz.init_callback = function () {
   });
 
 }
-
+fuzz.set_init_callback(arg);
 console.log (" >> Agent loaded!");
