@@ -35,8 +35,14 @@ export var utils = utils;
 */
 /* Define this to exclude other modules from instrumentation */
 export var target_module = null;
+export function set_target_module(arg){
+  target_module = arg;
+}
 /* MANDATORY: harness function */
 export var fuzzer_test_one_input = null;
+export function set_fuzzer_test_one_input(arg){
+  fuzzer_test_one_input= arg;
+}
 /* If true, the user has to call fuzzing_loop() manually in a callback
    (see Java example, fuzzing_loop cannot be called during script loading) */
 export var manual_loop_start = false;
