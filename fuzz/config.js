@@ -19,7 +19,7 @@
 //exports.MAP_SIZE = 65536; // 2^16, AFL default
 export let MAP_SIZE = 32768; // 2^15, small APIs doesn't require a large map
 //exports.MAP_SIZE = 16384; // 2^14, small APIs doesn't require a large map
-export function mapsize(arg){
+export function set_MAP_SIZE(arg){
   MAP_SIZE = arg;
 }
 export var MAX_FILE = 1024*6;
