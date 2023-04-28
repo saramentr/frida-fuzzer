@@ -239,7 +239,7 @@ export var update_bitmap_score = function (q) {
 
   if (config.SKIP_SCORE_FAV) return;
 
-  var cnt = update_bitmap_score_body(q.ptr, exports.top_rated, exports.trace_bits, exports.virgin_bits);
+  var cnt = update_bitmap_score_body(q.ptr, top_rated, trace_bits, virgin_bits);
   if (cnt < 0) {
     score_changed = true;
     cnt = -cnt;
