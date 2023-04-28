@@ -435,7 +435,7 @@ var cull_body = new NativeFunction(
 export var cull = function () {
 
   if (!bitmap.score_changed) return;
-  bitmap.score_changed = false;
+  bitmap.set_score_changed(false);
 
   for (var i = 0; i < queue.length; ++i)
     queue[i].favored = 0;
