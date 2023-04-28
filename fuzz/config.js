@@ -19,7 +19,9 @@
 //exports.MAP_SIZE = 65536; // 2^16, AFL default
 export let MAP_SIZE = 32768; // 2^15, small APIs doesn't require a large map
 //exports.MAP_SIZE = 16384; // 2^14, small APIs doesn't require a large map
-
+export function mapsize(arg){
+  MAP_SIZE = arg;
+}
 export var MAX_FILE = 1024*6;
 // after timeout abort fuzzing
 export var TIMEOUT = 10*1000; // 10 seconds
