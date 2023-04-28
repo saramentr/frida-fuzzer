@@ -71,7 +71,7 @@ export var mutate_havoc = function (buf) { // ArrayBuffer
 
   var pos = undefined;
   var endian = true;
-  var use_stacking = 1 << (1 + UR(HAVOC_STACK_POW2));
+  var use_stacking = 1 << (1 + UR(config.HAVOC_STACK_POW2));
 
   for (var i = 0; i < use_stacking; i++) {
 
