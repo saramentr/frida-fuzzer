@@ -20,16 +20,16 @@ let arg = function () {
     });
     
     // Clone to enable traps: 'all', this is mandatory
-    var test_java_func = activity.test_java_func.clone({ traps: 'all' });
+    var test_java_func = activity.calc.clone({ traps: 'all' });
 
-    fuzz.fuzzer_test_one_input = function (/* Uint8Array */ payload) {
+    var arg = function (/* Uint8Array */ payload) {
 
-      var str = fuzz.utils.uint8arr_to_str(payload);
+//      var str = fuzz.utils.uint8arr_to_str(payload);
       
-      test_java_func.call(activity, str);
+      test_java_func.call(activity);
 
     }
-
+    fuzz.set_fuzzer_test_one_input(arg)
     /* Manually start loop so that we ensure to call fuzzer_test_one_input
        in the Java perform context */
     fuzz.fuzzing_loop();
