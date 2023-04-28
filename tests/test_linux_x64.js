@@ -15,7 +15,7 @@ var func_handle = new NativeFunction(TARGET_FUNCTION, RET_TYPE, ARGS_TYPES, { tr
 
 fuzz.set_target_module(TARGET_MODULE);
 
-arg = function (/* Uint8Array */ payload) {
+let arg = function (/* Uint8Array */ payload) {
 
   var payload_mem = payload.buffer.unwrap();
 
