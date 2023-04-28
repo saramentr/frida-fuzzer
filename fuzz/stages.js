@@ -31,6 +31,9 @@ export var total_execs = 0;
 export var exec_speed = 0;
 
 export var splice_cycle = 0;
+export function set_splice_cycle(arg){
+  splice_cycle = arg;
+}
 
 var zeroed_bits = new Uint8Array(config.MAP_SIZE); // TODO memset(..., 0, ...)
 var last_status_ts = 0;
