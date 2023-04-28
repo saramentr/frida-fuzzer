@@ -338,7 +338,7 @@ export var splice_target = function (buf) {
   } else {
   
     new_buf = ArrayBuffer.wrap(t.buf, t.size).slice(0);
-    stages.splice_cycle++;
+    stages.set_splice_cycle(stages.splice_cycle+1);
     
   }
   
