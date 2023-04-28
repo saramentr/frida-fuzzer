@@ -1,3 +1,4 @@
+export var transform_x64 = null;
 /*
 
    frida-fuzzer - frida agent instrumentation
