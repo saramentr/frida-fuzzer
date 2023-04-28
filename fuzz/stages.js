@@ -48,9 +48,9 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
       send({
         "event": "crash",
         "err": err,
-        "stage": exports.stage_name,
+        "stage": stage_name,
         "cur": queue.cur_idx,
-        "total_execs": exports.total_execs,
+        "total_execs": total_execs,
         "pending_fav": queue.pending_favored,
         "favs": queue.favoreds,
         "map_rate": bitmap.map_rate,
@@ -59,9 +59,9 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
       send({
         "event": "exception",
         "err": err.message,
-        "stage": exports.stage_name,
+        "stage": stage_name,
         "cur": queue.cur_idx,
-        "total_execs": exports.total_execs,
+        "total_execs": total_execs,
         "pending_fav": queue.pending_favored,
         "favs": queue.favoreds,
         "map_rate": bitmap.map_rate,
@@ -77,9 +77,9 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
     send({
       "event": "crash",
       "err": {"type": "timeout"},
-      "stage": exports.stage_name,
+      "stage": stage_name,
       "cur": queue.cur_idx,
-      "total_execs": exports.total_execs,
+      "total_execs": total_execs,
       "pending_fav": queue.pending_favored,
       "favs": queue.favoreds,
       "map_rate": bitmap.map_rate,
@@ -98,9 +98,9 @@ function common_fuzz_stuff(/* ArrayBuffer */ buf, callback) {
       last_status_ts = ts_1;
       send({
         "event": "status",
-        "stage": exports.stage_name,
+        "stage": stage_name,
         "cur": queue.cur_idx,
-        "total_execs": exports.total_execs,
+        "total_execs": total_execs,
         "pending_fav": queue.pending_favored,
         "favs": queue.favoreds,
         "map_rate": bitmap.map_rate,
@@ -124,9 +124,9 @@ export var dry_run = function (callback) {
 
     send({
       "event": "dry",
-      "stage": exports.stage_name,
+      "stage": stage_name,
       "cur": queue.cur_idx,
-      "total_execs": exports.total_execs,
+      "total_execs": total_execs,
       "pending_fav": queue.pending_favored,
       "favs": queue.favoreds,
       "map_rate": bitmap.map_rate,
@@ -173,7 +173,7 @@ function fuzz_havoc(/* ArrayBuffer */ buf, callback, is_splice) {
     stage_name = "havoc";
     stage_max = config.HAVOC_CYCLES * 40; // TODO perf_score & co
   } else {
-    stage_name = "splice-" + exports.splice_cycle;
+    stage_name = "splice-" + splice_cycle;
     stage_max = config.SPLICE_HAVOC * 40; // TODO perf_score & co
   }
 
