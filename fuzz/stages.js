@@ -1,3 +1,4 @@
+export let queue_cur;
 /*
 
    frida-fuzzer - frida agent instrumentation
