@@ -11,7 +11,7 @@ let arg = function () {
 
     // Find the MainActivity instance
     var activity = null;
-    Java.choose('com.example.ndktest1.MainActivity', {
+    Java.choose('com.example.seccon2015.rock_paper_scissors.MainActivity', {
       onMatch: function (instance) {
         activity = instance;
         return "stop";
